@@ -1,10 +1,9 @@
-package main
+package config
 
 import (
 	"context"
 	"fmt"
 	"log"
-	"net/http"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -12,7 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func main() {
+func MongoConfig() {
 	credential := options.Credential{
 		Username: "msn_",
 		Password: "mongo_password",
@@ -34,10 +33,4 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println(databases)
-
-	http.HandleFunc("/", func(rw http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(rw, "Hello, you've requested: %s\n", r.URL.Path)
-	})
-
-	http.ListenAndServe(":8080", nil)
 }
