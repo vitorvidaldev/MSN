@@ -12,6 +12,10 @@ services:
       MONGO_INITDB_ROOT_USERNAME: msn_
       MONGO_INITDB_ROOT_PASSWORD: mongo_password
       MONGO_INITDB_DATABASE: test
+    volumes: 
+      - /msn:/data/db
+    networks: 
+      - msn-network
 
   mongo-express:
     image: mongo-express
@@ -21,3 +25,9 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: msn_
       ME_CONFIG_MONGODB_ADMINPASSWORD: mongo_password
+    networks:
+      - msn-network
+
+networks:
+  msn-network:
+    driver: bridge
