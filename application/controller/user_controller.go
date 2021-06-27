@@ -3,6 +3,7 @@ package controller
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -46,4 +47,20 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(users)
+}
+
+func GetUserById(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "not implemented yet !")
+}
+
+func CreateUser(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "not implemented yet !")
+}
+
+func UpdateUser(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "not implemented yet !")
+}
+
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "not implemented yet !")
 }

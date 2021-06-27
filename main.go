@@ -18,10 +18,10 @@ func main() {
 
 	// Routes
 	r.HandleFunc("/user", controller.GetUsers).Methods("GET")
-	// r.HandleFunc("/user/{id}", controller.GetUserById).Methods("GET")
-	// r.HandleFunc("/user", controller.CreateUser).Methods("POST")
-	// r.HandleFunc("/user", controller.UpdateUser).Methods("PUT")
-	// r.HandleFunc("/user/{id}", controller.DeleteUser).Methods("DELETE")
+	r.HandleFunc("/user/{id}", controller.GetUserById).Methods("GET")
+	r.HandleFunc("/user", controller.CreateUser).Methods("POST")
+	r.HandleFunc("/user", controller.UpdateUser).Methods("PUT")
+	r.HandleFunc("/user/{id}", controller.DeleteUser).Methods("DELETE")
 
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
