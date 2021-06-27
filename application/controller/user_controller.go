@@ -100,12 +100,14 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewDecoder(r.Body).Decode(&user)
 
 	update := bson.D{
-		{"$set", bson.D{
-			{"name", user.Name},
-			{"email", user.Email},
-			{"password", user.Password},
-		}},
-	}
+		primitive.E{
+			Key: "$set",
+			Value: bson.D{
+				primitive.E{Key: "name", Value: user.Name},
+				primitive.E{Key: "email", Value: user.Email},
+				primitive.E{Key: "password", Value: user.Password},
+			},
+		}}
 
 	err := collection.FindOneAndUpdate(context.TODO(), filter, update).Decode(&user)
 
@@ -128,6 +130,10 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	// string to primitve.ObjectID
 	id, err := primitive.ObjectIDFromHex(params["id"])
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// prepare filter.
 	filter := bson.M{"_id": id}
