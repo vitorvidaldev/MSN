@@ -1,27 +1,23 @@
 package main
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
 	"github.com/vitorvidaldev/MSN/application/controller"
 )
 
-// TODO: Fix Error: read ECONNRESET error
 func main() {
-	// MongoDB initial configuration
-	// userCollection := config.MongoConfig()
-
 	// Router
 	r := mux.NewRouter()
 
 	// Routes
-	r.HandleFunc("/user", controller.GetUsers).Methods("GET")
-	r.HandleFunc("/user/{id}", controller.GetUserById).Methods("GET")
-	r.HandleFunc("/user", controller.CreateUser).Methods("POST")
-	r.HandleFunc("/user", controller.UpdateUser).Methods("PUT")
-	r.HandleFunc("/user/{id}", controller.DeleteUser).Methods("DELETE")
+	s := r.PathPrefix("/user").Subrouter()
+	s.HandleFunc("/", controller.GetUsers).Methods("GET")
+	s.HandleFunc("/{id}", controller.GetUserById).Methods("GET")
+	s.HandleFunc("/", controller.CreateUser).Methods("POST")
+	s.HandleFunc("/", controller.UpdateUser).Methods("PUT")
+	s.HandleFunc("/{id}", controller.DeleteUser).Methods("DELETE")
 
-	log.Fatal(http.ListenAndServe(":8080", r))
+	http.ListenAndServe(":8080", r)
 }

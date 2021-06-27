@@ -11,9 +11,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: msn_
       MONGO_INITDB_ROOT_PASSWORD: mongo_password
-      MONGO_INITDB_DATABASE: msn_database
-    volumes: 
-      - /msn:/data/db
     networks: 
       - msn-network
 
