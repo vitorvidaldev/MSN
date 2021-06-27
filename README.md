@@ -3,7 +3,7 @@ Message sending application, that allows multiple users to communicate with each
 
 ## Postman Collection
 
-```
+```json
 {
 	"info": {
 		"_postman_id": "9cb28f1c-2d4c-432c-8266-0493c4518107",
