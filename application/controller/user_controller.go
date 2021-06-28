@@ -8,21 +8,18 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/vitorvidaldev/MSN/domain/model"
-	"github.com/vitorvidaldev/MSN/infra/config"
+	"github.com/vitorvidaldev/MSN/domain/repository"
 	"github.com/vitorvidaldev/MSN/infra/util"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
-
-var collection = config.MongoConfig()
 
 func GetUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	var users []model.User
 
-	// bson.M{} -> We passed an empty filter, so we want to get all data
-	cur, err := collection.Find(context.TODO(), bson.M{})
+	cur, err := repository.FindAll()
 
 	if err != nil {
 		util.GetError(err, w)
@@ -59,7 +56,8 @@ func GetUserById(w http.ResponseWriter, r *http.Request) {
 
 	id, _ := primitive.ObjectIDFromHex(params["id"])
 	filter := bson.M{"_id": id}
-	err := collection.FindOne(context.TODO(), filter).Decode(&user)
+
+	err := repository.FindById(filter, &user)
 
 	if err != nil {
 		util.GetError(err, w)
@@ -75,7 +73,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	var user model.User
 
 	_ = json.NewDecoder(r.Body).Decode(&user)
-	result, err := collection.InsertOne(context.TODO(), user)
+	result, err := repository.CreateUser(user)
 
 	if err != nil {
 		util.GetError(err, w)
@@ -109,7 +107,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 			},
 		}}
 
-	err := collection.FindOneAndUpdate(context.TODO(), filter, update).Decode(&user)
+	err := repository.UpdateUser(filter, update, &user)
 
 	if err != nil {
 		util.GetError(err, w)
@@ -118,10 +116,9 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	user.ID = id
 
-	json.NewEncoder(w).Encode(user)
+	json.NewEncoder(w).Encode(user.ID)
 }
 
-// TODO: Fix warning
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -138,7 +135,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	// prepare filter.
 	filter := bson.M{"_id": id}
 
-	deleteResult, err := collection.DeleteOne(context.TODO(), filter)
+	deleteResult, err := repository.DeleteUser(filter)
 
 	if err != nil {
 		util.GetError(err, w)
