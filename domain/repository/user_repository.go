@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"log"
 
 	"github.com/vitorvidaldev/MSN/domain/model"
 	"github.com/vitorvidaldev/MSN/infra/config"
@@ -12,23 +13,30 @@ import (
 
 var collection = config.MongoConfig()
 
-// bson.M{} -> We passed an empty filter, so we want to get all data
-func FindAll() (*mongo.Cursor, error) {
-	return collection.Find(context.TODO(), bson.M{})
+func FindAll() *mongo.Cursor {
+	curr, err := collection.Find(context.TODO(), bson.M{})
+	if err != nil {
+		log.Fatal(err)
+	}
+	return curr
 }
 
-func FindById(filter primitive.M, user *model.User) error {
+func FindById(id primitive.ObjectID, user *model.User) error {
+	filter := bson.M{"_id": id}
 	return collection.FindOne(context.TODO(), filter).Decode(user)
+
 }
 
 func CreateUser(user model.User) (*mongo.InsertOneResult, error) {
 	return collection.InsertOne(context.TODO(), user)
 }
 
-func UpdateUser(filter primitive.M, update primitive.D, user *model.User) error {
+func UpdateUser(id primitive.ObjectID, update primitive.D, user *model.User) error {
+	filter := bson.M{"_id": id}
 	return collection.FindOneAndUpdate(context.TODO(), filter, update).Decode(user)
 }
 
-func DeleteUser(filter primitive.M) (*mongo.DeleteResult, error) {
+func DeleteUser(id primitive.ObjectID) (*mongo.DeleteResult, error) {
+	filter := bson.M{"_id": id}
 	return collection.DeleteOne(context.TODO(), filter)
 }

@@ -19,20 +19,14 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 
 	var users []model.User
 
-	cur, err := repository.FindAll()
-
-	if err != nil {
-		util.GetError(err, w)
-		return
-	}
-
-	// Close the cursor once finished
+	cur := repository.FindAll()
 	defer cur.Close(context.TODO())
 
 	for cur.Next(context.TODO()) {
 		var user model.User
 
 		err := cur.Decode(&user)
+
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -51,13 +45,8 @@ func GetUserById(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	var user model.User
-
-	var params = mux.Vars(r)
-
-	id, _ := primitive.ObjectIDFromHex(params["id"])
-	filter := bson.M{"_id": id}
-
-	err := repository.FindById(filter, &user)
+	id := extractID(r)
+	err := repository.FindById(id, &user)
 
 	if err != nil {
 		util.GetError(err, w)
@@ -71,7 +60,6 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	var user model.User
-
 	_ = json.NewDecoder(r.Body).Decode(&user)
 	result, err := repository.CreateUser(user)
 
@@ -83,17 +71,11 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(result)
 }
 
-// TODO: Fix save to collection bug
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	var params = mux.Vars(r)
-
-	id, _ := primitive.ObjectIDFromHex(params["id"])
-
 	var user model.User
-
-	filter := bson.M{"_id": id}
+	id := extractID(r)
 
 	_ = json.NewDecoder(r.Body).Decode(&user)
 
@@ -107,35 +89,21 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 			},
 		}}
 
-	err := repository.UpdateUser(filter, update, &user)
+	err := repository.UpdateUser(id, update, &user)
 
 	if err != nil {
 		util.GetError(err, w)
 		return
 	}
 
-	user.ID = id
-
-	json.NewEncoder(w).Encode(user.ID)
+	json.NewEncoder(w).Encode(id)
 }
 
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	// get params
-	var params = mux.Vars(r)
-
-	// string to primitve.ObjectID
-	id, err := primitive.ObjectIDFromHex(params["id"])
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// prepare filter.
-	filter := bson.M{"_id": id}
-
-	deleteResult, err := repository.DeleteUser(filter)
+	id := extractID(r)
+	deleteResult, err := repository.DeleteUser(id)
 
 	if err != nil {
 		util.GetError(err, w)
@@ -143,4 +111,13 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(deleteResult)
+}
+
+func extractID(r *http.Request) primitive.ObjectID {
+	var params = mux.Vars(r)
+	id, err := primitive.ObjectIDFromHex(params["id"])
+	if err != nil {
+		log.Fatal(err)
+	}
+	return id
 }
