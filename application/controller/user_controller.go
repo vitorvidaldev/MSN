@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/vitorvidaldev/MSN/application/vo"
 	"github.com/vitorvidaldev/MSN/domain/model"
 	"github.com/vitorvidaldev/MSN/domain/repository"
 	"github.com/vitorvidaldev/MSN/infra/util"
@@ -59,9 +60,9 @@ func GetUserById(w http.ResponseWriter, r *http.Request) {
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	var user model.User
-	_ = json.NewDecoder(r.Body).Decode(&user)
-	result, err := repository.CreateUser(user)
+	var userVO vo.UserVO
+	_ = json.NewDecoder(r.Body).Decode(&userVO)
+	result, err := repository.CreateUser(userVO)
 
 	if err != nil {
 		util.GetError(err, w)
@@ -83,7 +84,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		primitive.E{
 			Key: "$set",
 			Value: bson.D{
-				primitive.E{Key: "name", Value: user.Name},
+				primitive.E{Key: "username", Value: user.Username},
 				primitive.E{Key: "email", Value: user.Email},
 				primitive.E{Key: "password", Value: user.Password},
 			},
