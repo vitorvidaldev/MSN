@@ -1,8 +1,10 @@
 package model
 
 import (
+	"log"
 	"time"
 
+	"github.com/vitorvidaldev/MSN/application/vo"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -16,12 +18,23 @@ type User struct {
 	UpdatedAt time.Time `json:"-"`
 }
 
-func HashPassword(password string) (string, error) {
+func HashPassword(password string) string {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
-	return string(bytes), err
+	if err != nil {
+		log.Fatal("There was a problem with your password")
+	}
+	return string(bytes)
 }
 
 func CheckPassword(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
+}
+
+func FromVO(vo vo.UserVO) User {
+	var user User
+	user.Email = vo.Email
+	user.Username = vo.Username
+	user.Hash = HashPassword(vo.Password)
+	return user
 }

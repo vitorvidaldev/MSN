@@ -75,10 +75,12 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	var user model.User
+	var userVO vo.UserVO
 	id := extractID(r)
 
-	_ = json.NewDecoder(r.Body).Decode(&user)
+	_ = json.NewDecoder(r.Body).Decode(&userVO)
+
+	user := model.FromVO(userVO)
 
 	update := bson.D{
 		primitive.E{
@@ -86,7 +88,6 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 			Value: bson.D{
 				primitive.E{Key: "username", Value: user.Username},
 				primitive.E{Key: "email", Value: user.Email},
-				primitive.E{Key: "password", Value: user.Password},
 			},
 		}}
 
