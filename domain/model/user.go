@@ -9,10 +9,9 @@ import (
 )
 
 type User struct {
-	// TODO: Change to uuid
 	ID        string    `json:"_id,omitempty" bson:"_id,omitempty"`
-	Username  string    `json:"username" bson:"username,omitempty"`
-	Email     string    `json:"email" bson:"email,omitempty"`
+	Username  string    `json:"username" bson:"username"`
+	Email     string    `json:"email" bson:"email"`
 	Hash      string    `json:"hash" bson:"hash,omitempty"`
 	CreatedAt time.Time `json:"-"`
 	UpdatedAt time.Time `json:"-"`
@@ -44,4 +43,12 @@ func FromUpdateVO(vo vo.UpdateUserVO) User {
 	user.Email = vo.Email
 	user.Username = vo.Username
 	return user
+}
+
+func ToReturnVO(user User) vo.ReturnUserVO {
+	var vo vo.ReturnUserVO
+	vo.ID = user.ID
+	vo.Username = user.Username
+	vo.Email = user.Email
+	return vo
 }

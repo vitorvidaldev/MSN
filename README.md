@@ -154,4 +154,4 @@ Vitor Vidal - vitorvidal.dev@gmail.com
 
 ## License
 
-See `License` file in this repository.
+This project uses the MIT License. See `License` file in this repository.
