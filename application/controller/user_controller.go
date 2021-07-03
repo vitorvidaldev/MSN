@@ -3,6 +3,7 @@ package controller
 import (
 	"context"
 	"encoding/json"
+	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 	"net/http"
 
@@ -21,7 +22,12 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 	var users []vo.ReturnUserVO
 
 	cur := repository.FindAll()
-	defer cur.Close(context.TODO())
+	defer func(cur *mongo.Cursor, ctx context.Context) {
+		err := cur.Close(ctx)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}(cur, context.TODO())
 
 	for cur.Next(context.TODO()) {
 		var user model.User
@@ -39,7 +45,10 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	json.NewEncoder(w).Encode(users)
+	err := json.NewEncoder(w).Encode(users)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func GetUserById(w http.ResponseWriter, r *http.Request) {
@@ -54,7 +63,10 @@ func GetUserById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	json.NewEncoder(w).Encode(model.ToReturnVO(user))
+	err = json.NewEncoder(w).Encode(model.ToReturnVO(user))
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
@@ -72,7 +84,10 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	json.NewEncoder(w).Encode(result)
+	err = json.NewEncoder(w).Encode(result)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
@@ -101,7 +116,10 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	json.NewEncoder(w).Encode(id)
+	err = json.NewEncoder(w).Encode(id)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
@@ -115,7 +133,10 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	json.NewEncoder(w).Encode(deleteResult)
+	err = json.NewEncoder(w).Encode(deleteResult)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func extractID(r *http.Request) primitive.ObjectID {
