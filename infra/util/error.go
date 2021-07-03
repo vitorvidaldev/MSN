@@ -2,7 +2,6 @@ package util
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 )
 
@@ -13,7 +12,6 @@ type ErrorResponse struct {
 
 func GetError(err error, w http.ResponseWriter) {
 
-	log.Fatal(err.Error())
 	var response = ErrorResponse{
 		ErrorMessage: err.Error(),
 		StatusCode:   http.StatusInternalServerError,

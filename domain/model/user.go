@@ -46,9 +46,9 @@ func FromUpdateVO(vo vo.UpdateUserVO) User {
 }
 
 func ToReturnVO(user User) vo.ReturnUserVO {
-	var vo vo.ReturnUserVO
-	vo.ID = user.ID
-	vo.Username = user.Username
-	vo.Email = user.Email
-	return vo
+	var returnUserVO vo.ReturnUserVO
+	returnUserVO.ID = user.ID
+	returnUserVO.Username = user.Username
+	returnUserVO.Email = user.Email
+	return returnUserVO
 }
