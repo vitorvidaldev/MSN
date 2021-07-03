@@ -7,6 +7,12 @@ import (
 
 func Router(r *mux.Router) {
 	userRouter(r)
+	healthcheckRouter(r)
+}
+
+func healthcheckRouter(r *mux.Router) {
+	s := r.PathPrefix("/health").Subrouter()
+	s.HandleFunc("/", controller.HealthCheck).Methods("GET")
 }
 
 func userRouter(r *mux.Router) {
