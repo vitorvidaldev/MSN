@@ -80,6 +80,8 @@ github.com/stretchr/testify v1.6.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/
 github.com/tidwall/pretty v1.0.0 h1:HsD+QiTn7sK6flMKIvNmpqz1qrpP3Ps6jOKIKMooyg4=
 github.com/tidwall/pretty v1.0.0/go.mod h1:XNkn88O1ChpSDQmQeStsy+sBenx6DDtFZJxhVysOjyk=
 github.com/vitorvidaldev/MSN v0.0.0-20210628231605-13013bffdb97/go.mod h1:xV/xNAV30nyoi5QzkkicMeLLPDZyQo/ndsvoAqDWWDk=
+github.com/vitorvidaldev/MSN v0.0.0-20210703134613-cc4c27112c39 h1:4Wo//xcK792blmrnlyJiujL168/Jror2AK6NCzlnh3w=
+github.com/vitorvidaldev/MSN v0.0.0-20210703134613-cc4c27112c39/go.mod h1:TweKB6zybG6eJoXddmSom+JpV/Fz3Lrdgb6cZ5B7NGY=
 github.com/vitorvidaldev/MSN/user v0.0.0-20210629005351-8fef72897efb h1:Mcmx6YxphNIMcbXBBnc26wyHrvmfJ5YRSjQ3sEFvPCQ=
 github.com/vitorvidaldev/MSN/user v0.0.0-20210629005351-8fef72897efb/go.mod h1:30WxlVtA2apG8mjWF7GA4s3O7B58uem3e4F0e1fFgJ0=
 github.com/xdg-go/pbkdf2 v1.0.0 h1:Su7DPu48wXMwC3bs7MCNG+z4FhcyEuz5dlvchbq0B0c=
