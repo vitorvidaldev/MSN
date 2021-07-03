@@ -31,10 +31,17 @@ func CheckPassword(password, hash string) bool {
 	return err == nil
 }
 
-func FromVO(vo vo.UserVO) User {
+func FromCreateVO(vo vo.CreateUserVO) User {
 	var user User
 	user.Email = vo.Email
 	user.Username = vo.Username
 	user.Hash = HashPassword(vo.Password)
+	return user
+}
+
+func FromUpdateVO(vo vo.UpdateUserVO) User {
+	var user User
+	user.Email = vo.Email
+	user.Username = vo.Username
 	return user
 }

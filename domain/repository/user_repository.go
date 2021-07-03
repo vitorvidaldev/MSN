@@ -4,7 +4,6 @@ import (
 	"context"
 	"log"
 
-	"github.com/vitorvidaldev/MSN/application/vo"
 	"github.com/vitorvidaldev/MSN/domain/model"
 	"github.com/vitorvidaldev/MSN/infra/config"
 	"go.mongodb.org/mongo-driver/bson"
@@ -15,7 +14,7 @@ import (
 var collection = config.MongoConfig()
 
 func FindAll() *mongo.Cursor {
-	// TODO: Never return password
+	// TODO: Never return hash
 	curr, err := collection.Find(context.TODO(), bson.M{})
 	if err != nil {
 		log.Fatal(err)
@@ -24,15 +23,12 @@ func FindAll() *mongo.Cursor {
 }
 
 func FindById(id primitive.ObjectID, user *model.User) error {
+	// TODO: Never return hash
 	filter := bson.M{"_id": id}
-	// TODO: Never return password
 	return collection.FindOne(context.TODO(), filter).Decode(user)
-
 }
 
-func CreateUser(userVO vo.UserVO) (*mongo.InsertOneResult, error) {
-	var user model.User
-	// TODO: Implement explicit conversion between userVO and user
+func CreateUser(user model.User) (*mongo.InsertOneResult, error) {
 	return collection.InsertOne(context.TODO(), user)
 }
 
