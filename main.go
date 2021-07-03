@@ -10,5 +10,5 @@ import (
 func main() {
 	r := mux.NewRouter()
 	domain.Router(r)
-	http.ListenAndServe(":8080", r)
+	http.ListenAndServe("localhost:8080", r)
 }

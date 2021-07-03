@@ -18,7 +18,7 @@ import (
 func GetUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	var users []model.User
+	var users []vo.ReturnUserVO
 
 	cur := repository.FindAll()
 	defer cur.Close(context.TODO())
@@ -32,7 +32,7 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 			log.Fatal(err)
 		}
 
-		users = append(users, user)
+		users = append(users, model.ToReturnVO(user))
 	}
 
 	if err := cur.Err(); err != nil {
@@ -54,15 +54,18 @@ func GetUserById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	json.NewEncoder(w).Encode(user)
+	json.NewEncoder(w).Encode(model.ToReturnVO(user))
 }
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	var userVO vo.UserVO
-	_ = json.NewDecoder(r.Body).Decode(&userVO)
-	result, err := repository.CreateUser(userVO)
+	var createUserVO vo.CreateUserVO
+	_ = json.NewDecoder(r.Body).Decode(&createUserVO)
+
+	user := model.FromCreateVO(createUserVO)
+
+	result, err := repository.CreateUser(user)
 
 	if err != nil {
 		util.GetError(err, w)
@@ -75,12 +78,12 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	var userVO vo.UserVO
+	var updateUserVO vo.UpdateUserVO
 	id := extractID(r)
 
-	_ = json.NewDecoder(r.Body).Decode(&userVO)
+	_ = json.NewDecoder(r.Body).Decode(&updateUserVO)
 
-	user := model.FromVO(userVO)
+	user := model.FromUpdateVO(updateUserVO)
 
 	update := bson.D{
 		primitive.E{
