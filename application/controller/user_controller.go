@@ -3,9 +3,10 @@ package controller
 import (
 	"context"
 	"encoding/json"
-	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 	"net/http"
+
+	"go.mongodb.org/mongo-driver/mongo"
 
 	"github.com/gorilla/mux"
 	"github.com/vitorvidaldev/MSN/application/vo"
