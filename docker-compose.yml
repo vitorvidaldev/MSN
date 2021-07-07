@@ -5,12 +5,12 @@ services:
   mongo:
     image: mongo
     restart: always
-    ports: 
+    ports:
       - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: msn_
       MONGO_INITDB_ROOT_PASSWORD: mongo_password
-    networks: 
+    networks:
       - msn-network
 
   mongo-express:
