@@ -2,6 +2,7 @@ package util
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 )
 
@@ -20,5 +21,9 @@ func GetError(err error, w http.ResponseWriter) {
 	message, _ := json.Marshal(response)
 
 	w.WriteHeader(response.StatusCode)
-	w.Write(message)
+	_, err = w.Write(message)
+	if err != nil {
+		log.Println(err)
+		return
+	}
 }
