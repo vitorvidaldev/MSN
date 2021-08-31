@@ -10,6 +10,8 @@ In the root of this repository, execute the following commands:
 
 `go run main.go`
 
+You can access `http://localhost:8080/health/` in the browser of your choice to verify if the application is up.
+
 ## Postman Collection
 
 ```json
