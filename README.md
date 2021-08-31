@@ -2,6 +2,14 @@
 
 Message sending application, that allows multiple users to communicate with each other
 
+## Executing the application on your local machine
+
+In the root of this repository, execute the following commands:
+
+`docker-compose up -d`
+
+`go run main.go`
+
 ## Postman Collection
 
 ```json
@@ -25,14 +33,9 @@ Message sending application, that allows multiple users to communicate with each
         ],
         "url": {
           "raw": "localhost:8080/user/",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "8080",
-          "path": [
-            "user",
-            ""
-          ]
+          "path": ["user", ""]
         }
       },
       "response": []
@@ -50,14 +53,9 @@ Message sending application, that allows multiple users to communicate with each
         ],
         "url": {
           "raw": "localhost:8080/user/60d8a2ecdff838fdcb116964",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "8080",
-          "path": [
-            "user",
-            "60d8a2ecdff838fdcb116964"
-          ]
+          "path": ["user", "60d8a2ecdff838fdcb116964"]
         }
       },
       "response": []
@@ -79,14 +77,9 @@ Message sending application, that allows multiple users to communicate with each
         },
         "url": {
           "raw": "localhost:8080/user/",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "8080",
-          "path": [
-            "user",
-            ""
-          ]
+          "path": ["user", ""]
         }
       },
       "response": []
@@ -108,14 +101,9 @@ Message sending application, that allows multiple users to communicate with each
         },
         "url": {
           "raw": "localhost:8080/user/60d8a2ecdff838fdcb116964",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "8080",
-          "path": [
-            "user",
-            "60d8a2ecdff838fdcb116964"
-          ]
+          "path": ["user", "60d8a2ecdff838fdcb116964"]
         }
       },
       "response": []
@@ -133,14 +121,9 @@ Message sending application, that allows multiple users to communicate with each
         ],
         "url": {
           "raw": "localhost:8080/user/60d8a2ecdff838fdcb116964",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "8080",
-          "path": [
-            "user",
-            "60d8a2ecdff838fdcb116964"
-          ]
+          "path": ["user", "60d8a2ecdff838fdcb116964"]
         }
       },
       "response": []
