@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
 
@@ -107,6 +108,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 			Value: bson.D{
 				primitive.E{Key: "username", Value: user.Username},
 				primitive.E{Key: "email", Value: user.Email},
+				primitive.E{Key: "updatedat", Value: time.Now()},
 			},
 		}}
 
