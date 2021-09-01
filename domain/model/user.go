@@ -35,6 +35,7 @@ func FromCreateVO(vo vo.CreateUserVO) User {
 	user.Email = vo.Email
 	user.Username = vo.Username
 	user.Hash = HashPassword(vo.Password)
+	user.CreatedAt = time.Now()
 	return user
 }
 
@@ -42,6 +43,7 @@ func FromUpdateVO(vo vo.UpdateUserVO) User {
 	var user User
 	user.Email = vo.Email
 	user.Username = vo.Username
+	user.UpdatedAt = time.Now()
 	return user
 }
 
