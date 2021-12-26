@@ -1,8 +1,8 @@
-version: "3.1"
+version: "3.9"
 
 services:
   mongo:
-    image: mongo
+    image: mongo:5.0.5
     restart: always
     ports:
       - "27017:27017"
@@ -13,7 +13,7 @@ services:
       - msn-network
 
   mongo-express:
-    image: mongo-express
+    image: mongo-express:0.54
     restart: always
     ports:
       - "8090:8081"
@@ -22,6 +22,12 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: mongo_password
     networks:
       - msn-network
+
+  grafana:
+    image: grafana/grafana:8.3.3
+    restart: always
+    ports:
+      - "3000:3000"
 
 networks:
   msn-network:
