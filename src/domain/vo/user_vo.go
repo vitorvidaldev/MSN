@@ -3,5 +3,7 @@ package vo
 import "github.com/google/uuid"
 
 type UserVO struct {
-	UserId uuid.UUID
+	User_id  uuid.UUID // Primary Key
+	Email    string
+	Username string
 }

@@ -19,13 +19,13 @@ func InitPGConnection() *sql.DB {
 	db, err := sql.Open("postgres", os.Getenv("POSTGRES_URL"))
 
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Error getting postgres connection", err)
 	}
 
 	err = db.Ping()
 
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Error pinging database", err)
 	}
 
 	return db

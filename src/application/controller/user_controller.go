@@ -5,8 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/google/uuid"
-	"github.com/vitorvidaldev/msn/src/domain/entity"
+	"github.com/vitorvidaldev/msn/src/application/service"
 	"github.com/vitorvidaldev/msn/src/domain/vo"
 )
 
@@ -16,20 +15,16 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
-	var user entity.User
+	var createUserVO vo.CreateUserVO
 
-	err := json.NewDecoder(r.Body).Decode(&user)
-
+	err := json.NewDecoder(r.Body).Decode(&createUserVO)
 	if err != nil {
 		log.Fatalf("Unable to decode create user request body. %v", err)
 	}
 
-	// userId := createUser
-	userId := uuid.New()
+	userVO := service.CreateUser(createUserVO)
 
-	res := vo.UserVO{UserId: userId}
-
-	json.NewEncoder(w).Encode(res)
+	json.NewEncoder(w).Encode(userVO)
 
 }
 
