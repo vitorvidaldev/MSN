@@ -7,5 +7,6 @@ require (
 	github.com/go-redis/redis/v9 v9.0.0-20220604145840-27f0addeb2e6 // indirect
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
+	github.com/joho/godotenv v1.4.0
 	github.com/lib/pq v1.10.6 // indirect
 )

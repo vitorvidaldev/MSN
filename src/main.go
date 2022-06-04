@@ -7,9 +7,13 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/vitorvidaldev/msn/src/application/controller"
+	"github.com/vitorvidaldev/msn/src/config"
 )
 
 func main() {
+	db := config.InitPGConnection()
+	defer db.Close()
+
 	r := mux.NewRouter()
 	subR := r.PathPrefix("/rest/v1").Subrouter()
 	// users
