@@ -16,6 +16,7 @@ func main() {
 
 	r := mux.NewRouter()
 	subR := r.PathPrefix("/rest/v1").Subrouter()
+
 	// users
 	subR.HandleFunc("/users", controller.CreateUser).Methods("POST")
 	subR.HandleFunc("/users", controller.LoginUser).Methods("POST")
@@ -33,8 +34,8 @@ func main() {
 	srv := &http.Server{
 		Handler:      r,
 		Addr:         "127.0.0.1:8000",
-		WriteTimeout: 2 * time.Second,
-		ReadTimeout:  2 * time.Second,
+		WriteTimeout: 1 * time.Second,
+		ReadTimeout:  1 * time.Second,
 	}
 
 	log.Fatal(srv.ListenAndServe())
