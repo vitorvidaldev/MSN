@@ -49,18 +49,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	setHeaders(w)
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
 
-	vars := mux.Vars(r)
-
-	stringId, doesExists := vars["userId"]
-	if !doesExists {
-		log.Fatal("[UserController] User id not provided.")
-	}
-
-	userId, err := uuid.Parse(stringId)
-
-	if err != nil {
-		log.Fatal("[userController] Could not convert id to uuid. ", err)
-	}
+	userId := stringToUUID(extractPathVariable(r, "userId"))
 
 	userVO := service.GetUser(userId)
 
@@ -72,22 +61,30 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	setHeaders(w)
 	w.Header().Set("Access-Control-Allow-Methods", "DELETE")
 
-	vars := mux.Vars(r)
+	userId := stringToUUID(extractPathVariable(r, "userId"))
 
-	stringId, doesExists := vars["userId"]
-	if !doesExists {
-		log.Fatal("[UserController] User id not provided.")
-	}
+	service.DeleteUser(userId)
 
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func stringToUUID(stringId string) uuid.UUID {
 	userId, err := uuid.Parse(stringId)
 
 	if err != nil {
 		log.Fatal("[userController] Could not convert id to uuid. ", err)
 	}
+	return userId
+}
 
-	service.DeleteUser(userId)
+func extractPathVariable(r *http.Request, name string) string {
+	vars := mux.Vars(r)
 
-	w.WriteHeader(http.StatusNoContent)
+	stringId, doesExists := vars[name]
+	if !doesExists {
+		log.Fatal("[UserController] User id not provided.")
+	}
+	return stringId
 }
 
 func setHeaders(w http.ResponseWriter) {
