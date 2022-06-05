@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/vitorvidaldev/msn/src/config"
 	"github.com/vitorvidaldev/msn/src/domain/entity"
+	"github.com/vitorvidaldev/msn/src/domain/vo"
 )
 
 func InsertUser(user entity.User) entity.User {
@@ -22,6 +23,14 @@ func InsertUser(user entity.User) entity.User {
 
 	defer db.Close()
 	return user
+}
+
+func LoginUser(loginVO vo.LoginUserVO) bool {
+
+}
+
+func GetUser(user uuid.UUID) entity.User {
+
 }
 
 func DeleteUser(userId uuid.UUID) {

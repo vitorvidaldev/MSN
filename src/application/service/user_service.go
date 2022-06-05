@@ -21,3 +21,15 @@ func CreateUser(createVO vo.CreateUserVO) vo.UserVO {
 		Email:    userEntity.Email,
 		Username: userEntity.Username}
 }
+
+func LoginUser(loginVO vo.LoginUserVO) vo.UserVO {
+
+}
+
+func GetUser(userId uuid.UUID) vo.UserVO {
+
+}
+
+func DeleteUser(userId uuid.UUID) {
+
+}
