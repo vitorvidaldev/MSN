@@ -8,7 +8,6 @@ import (
 )
 
 func CreateUser(createVO vo.CreateUserVO) vo.UserVO {
-
 	userEntity := entity.User{
 		User_id:  uuid.New(),
 		Email:    createVO.Email,
